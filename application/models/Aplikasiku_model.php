@@ -120,6 +120,18 @@ class Aplikasiku_model extends CI_Model {
         return $result;
     }
 
+
+    public function cekPenduduk($no_ktp) {
+
+        $sql = $this->db->query(
+                "                     
+            select * from tabel_biodata where no_ktp = '".$no_ktp."'
+                ");
+        
+        return $sql->row();
+        
+    }
+
 }
 
 

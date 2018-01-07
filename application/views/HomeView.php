@@ -24,7 +24,7 @@ $nama_login = $this->session->userdata('username');;
     <!-- Custom styles for this template -->
     <link href="<?php echo base_url();?>assets/bootstrap/docs/4.0/examples/starter-template/starter-template.css" rel="stylesheet" >
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/dist/jquery-ui.css">
 
     
     
@@ -49,7 +49,8 @@ $nama_login = $this->session->userdata('username');;
 
       <div class="starter-template">
         <h1>Selamat Datang, <?php echo $nama_login; ?></h1>
-
+        <br>
+        <b><i><u><?php echo $this->session->flashdata('validasi'); ?></u></i></b>        
         <br><br>
 
         <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>index.php/Login/addPenduduk">
@@ -165,7 +166,7 @@ $nama_login = $this->session->userdata('username');;
     <!-- Placed at the end of the document so the pages load faster -->
 
     
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="<?php echo base_url();?>assets/bootstrap/dist/js/jquery-3.2.1.slim.min.js" ></script>
 
  <script>
 	
@@ -196,15 +197,27 @@ $nama_login = $this->session->userdata('username');;
      x = $("#no_ktp").val();
      y = $('#datepicker').val();
 
-     var tanggal_ktp   = x.substring(6, 12);
-     var day    = y.slice(0, 2);
-     var month  = y.slice(3, 5);
-     var year   = y.slice(8, 10);
+     var tanggal_ktp        = x.substring(6, 12);
+     var bulan_tahun_ktp    = tanggal_ktp.substring(2, 7);
 
-     var tanggal_lahir = day+month+year ;
+     // var hari_ktp_wanita = tanggal_ktp.substring(0, 2);
+     // var tgl_plus =  parseInt(hari_ktp_wanita) + 40 ;
+
+
+     // var tanggal_ktp_wanita = tgl_plus + bulan_tahun_ktp;
+
+     var day            = y.slice(0, 2);
+     var day_wanita     = y.slice(0, 2);
+     var month          = y.slice(3, 5);
+     var year           = y.slice(8, 10);
+
+     var day_plus       = parseInt(day_wanita) + 40 ;
+     var tanggal_lahir        = day+month+year ;
+     var tanggal_lahir_wanita = day_plus+month+year ;
      // alert(day+month+year);
 
-     if ((x != '' && y != '') && (tanggal_ktp == tanggal_lahir)) {
+     // console.log(tanggal_ktp_wanita);
+     if ((x != '' && y != '') && (tanggal_ktp == tanggal_lahir) || (tanggal_ktp == tanggal_lahir_wanita)) {
 
         document.getElementById("no_ktp").style.outline = "solid green";
 

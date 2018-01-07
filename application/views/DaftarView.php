@@ -22,7 +22,7 @@
   <body>
 
     <div class="container">
-
+       <b><i><u><?php echo $this->session->flashdata('validasi'); ?></u></i></b>    	
        <form class="form-signin" method="post" action="<?php echo base_url(); ?>index.php/Login/daftar">
 
         <center><h2 class="form-signin-heading">Daftar</h2></center>

@@ -10,6 +10,7 @@ class Login extends CI_Controller {
             $this->load->helper(array('form', 'url', 'download'));
             $this->load->model('Aplikasiku_model');
             $this->load->library('session');
+
     }
 
 
@@ -39,7 +40,8 @@ class Login extends CI_Controller {
 
 		} else {
 
-			echo "Usename atau Password Salah" ;
+			$this->session->set_flashdata('validasi','Usename atau Password Salah'); 
+			// echo "Usename atau Password Salah" ;
 			$this->load->view('LoginView');
 
 		}
@@ -80,7 +82,8 @@ class Login extends CI_Controller {
 
 		$this->Aplikasiku_model->addDaftar($data);
 
-		echo "Berhasil Mendaftar Akun Baru";
+		$this->session->set_flashdata('validasi','Berhasil Mendaftar Akun Baru'); 
+		// echo "Berhasil Mendaftar Akun Baru";
 		$this->load->view('DaftarView');
 	}
 
@@ -94,18 +97,28 @@ class Login extends CI_Controller {
 
 		$this->debug_to_console($tanggal);
 
-		$data = array(
+		$cek = $this->Aplikasiku_model->cekPenduduk($no_ktp);
 
-			'no_ktp' 		=> $no_ktp,
-			'nama' 			=> $nama, 
-			'tanggal_lahir' => $tanggal ,
-			'alamat' 		=> $alamat 
+		if (empty($cek)) {
+				$data = array(
 
-		);
+				'no_ktp' 		=> $no_ktp,
+				'nama' 			=> $nama, 
+				'tanggal_lahir' => $tanggal ,
+				'alamat' 		=> $alamat 
 
-		$this->Aplikasiku_model->addPenduduk($data);
+				);
 
-		echo "Berhasil Mendaftar Penduduk Baru";
+				$this->Aplikasiku_model->addPenduduk($data);
+
+				// echo "Berhasil Mendaftar Penduduk Baru";
+				$this->session->set_flashdata('validasi','Berhasil Mendaftar Penduduk Baru'); 
+		} else {
+				$this->session->set_flashdata('validasi','No KTP Sudah Terdaftar!!, Silahkan Daftar dengan No KTP berbeda'); 
+				// echo "No KTP Sudah Terdaftar";
+		}
+
+		
 		redirect('Login/homeView');
 
 	}
@@ -124,7 +137,8 @@ class Login extends CI_Controller {
 
 			$this->Aplikasiku_model->getDeleteData($no_ktp);
 
-			echo "Berhasil Menghapus Penduduk";
+			// echo "Berhasil Menghapus Penduduk";
+			$this->session->set_flashdata('validasi','Berhasil Menghapus Penduduk'); 
 			redirect('Login/homeView');
 		}
 
@@ -148,7 +162,8 @@ class Login extends CI_Controller {
 
 		$this->Aplikasiku_model->setPenduduk($data);
 
-		echo "Berhasil Mengubah Biodata";
+		// echo "Berhasil Mengubah Biodata";
+		$this->session->set_flashdata('validasi','Berhasil Mengubah Biodata'); 
 		redirect('Login/homeView');
     }
 
